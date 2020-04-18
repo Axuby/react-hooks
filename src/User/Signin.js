@@ -1,8 +1,7 @@
 import React,{useState}from 'react'
 import Layout from "../core/Layout";
-
 import {Redirect} from "react-router-dom"
-import {signin }from "../auth/userAuth";
+import {signin,authenticate,isAuthenticated} from "../auth/userAuth";
 
 
 const Signin  = () =>{
@@ -18,7 +17,8 @@ const Signin  = () =>{
     })
     
     const {email,password,error,loading,redirectToRefferer} = Values ;
-    
+
+    const {user} = isAuthenticated;
     
     
     const handleChange = name  => event => {
@@ -45,13 +45,15 @@ const Signin  = () =>{
             loading:false
         })
     } else {
-        setValues({
-            ...Values,
-            // email:"",
-            // password:"",
-            // error:"",
-            // loading:false, only concerned with redirecting the user after registering
-            redirectToRefferer:true
+        authenticate(data, () => {
+            setValues({
+                ...Values,
+                // email:"",
+                // password:"",
+                // error:"",
+                // loading:false, only concerned with redirecting the user after registering
+                redirectToRefferer:true
+            })
         })
     }})
     }
@@ -84,7 +86,17 @@ const Signin  = () =>{
     const redirectUser = () =>{
 
         if(redirectToRefferer){
-            return <Redirect to="/"></Redirect>
+            if (user && user.role === 1) {
+                return <Redirect to="/admin/dashboard"/>
+            }else if (user && user.role === 0) {
+                return <Redirect to="/user1/dashboard"/>
+            } else {
+               return <Redirect to="/user/dashboard"/>
+            }
+            
+        }
+        if (isAuthenticated()) {
+            return <Redirect to="/"/>
         }
     }
     

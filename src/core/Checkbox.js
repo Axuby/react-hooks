@@ -21,6 +21,10 @@ if (currentCategoryId === -1) {
 }
 
 
+useEffect(() => {
+    
+}, [])
+
     return categories.map((c,i) =>(
         <li key={i}className="list-unstyled">
             <input onChange={handleToggle(c._id)} value={Checked.indexOf(c._id === -1)} type="checkbox" className="form-check-input"/>
@@ -28,3 +32,5 @@ if (currentCategoryId === -1) {
         </li>
     ))
 }
+
+export default Checkbox;

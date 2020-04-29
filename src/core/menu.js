@@ -1,7 +1,8 @@
 import React ,{Fragment}from 'react'
 import {Link,withRouter} from 'react-router-dom'
 import {signout,isAuthenticated} from "../auth/userAuth"
- import Dashboard from '../User/userDashboard'
+ //import Dashboard from '../User/userDashboard'
+ 
 
 const isActive = (history,path) => {
      if (history.location.pathname === path) {
@@ -19,6 +20,11 @@ const Menu = ({history}) => {
                 <li className='nav-item' >
                 <Link className="nav-link" to="/" style={isActive(history,'/')}>Home</Link>
                 </li>
+
+                <li className='nav-item' >
+                <Link className="nav-link" to="/shop" style={isActive(history,'/shop')}>Shop</Link>
+                </li>
+                
                 
   {isAuthenticated() && (<div>
                      
@@ -26,14 +32,19 @@ const Menu = ({history}) => {
              <Link className="nav-link"  to="/signup"  style={isActive(history,'/signup')}> Signup </Link>
                 </li>
 
-                <li className='nav-item' >
+                {/* <li className='nav-item' >
                 <Link className="nav-link" to="/signin" style={isActive(history,'/signin')}>Signin</Link>
                 </li>
-   
+    */}
   </div>)}
   {isAuthenticated() && isAuthenticated().user.role === 0 && (
     <li className='nav-item' >
-                <Link className="nav-link" to="/dashboard" style={isActive(history,'/user/dashboard')}>Dashboard</Link>
+                <Link className="nav-link" to="/user/dashboard" style={isActive(history,'/user/dashboard')}>Dashboard</Link>
+                </li>
+  )}
+  {isAuthenticated() && isAuthenticated().user.role === 1 && (
+    <li className='nav-item' >
+                <Link className="nav-link" to="/admin/dashboard" style={isActive(history,'/admin/dashboard')}>Dashboard</Link>
                 </li>
   )}
 {isAuthenticated() && (<div>

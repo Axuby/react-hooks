@@ -1,11 +1,11 @@
 import React,{ useEffect ,useState} from "react";
-import Card from "../core/Card"
+import {Card} from "../core/Card"
 import Layout from "./Layout";
 import {getCategories} from "./apiCore"
 import Checkbox from "./Checkbox";
 import {Prices} from "../core/FixedPrices";
 import RadioBox from "../core/RadioBox"
-import {Prices}
+
 
 const Shop = () =>{
 
@@ -41,10 +41,38 @@ console.log('SHSOP',filters,filterBy)
 
 const newFilters = {...MyFilters}
 newFilters.filters[filterBy] = filters;
+
+
+if (filterBy === 'price') {
+    
+let priceValue = handlePrice(filters)
+newFilters.filters[filterBy] = priceValue;
+
+} 
+
+
 setMyFilters(newFilters);
 
 }
 
+
+
+const handlePrice = (value) =>{
+const data = Prices;
+let array = []
+
+for(let key in data ){
+    if (data[key]._id === parseInt(value))  {
+        array = data[key].array
+    } 
+
+    return array;
+ }
+
+const  loadFilteredResults = (newFilters) =>{
+console.log(newFilters)
+}
+ 
 return (
     
     <div>
@@ -63,7 +91,7 @@ return (
 
 <ul>
  <h4>Filter By Price Range</h4>
-<RadioBox prices={prices} handleFilters={filters => handleFilters(filters,'prices')}/>
+<RadioBox prices={Prices} handleFilters={filters => handleFilters(filters,'price')}/>
 
 </ul>
  

@@ -1,4 +1,4 @@
-export const Pricess =  [
+export const Prices =  [
 
     {
         _id:0,
@@ -22,7 +22,7 @@ export const Pricess =  [
         _id:3,
 
         name:"$30 to $40",
-        array:[10,19]
+        array:[30,49]
     },
     {
         _id:4,

@@ -2,7 +2,10 @@ import React,{ useEffect ,useState} from "react";
 import Card from "../core/Card"
 import Layout from "./Layout";
 import {getCategories} from "./apiCore"
-import Checkbox from "./Checkbox"
+import Checkbox from "./Checkbox";
+import {Prices} from "../core/FixedPrices";
+import RadioBox from "../core/RadioBox"
+import {Prices}
 
 const Shop = () =>{
 
@@ -50,9 +53,20 @@ return (
     <div className="col-4">Left Side bar
     </div>
     <div className="col-8">Right
-    
-    <Checkbox Categories={Categories} handleFilters={filters => handleFilters(filters,'categories')}/>
+    <h4>Filter By Categories</h4>
+    <ul>
+    <Checkbox Categories={Categories} 
+    handleFilters={filters => handleFilters(filters,'categories')}/>
+    </ul>
+
   */}
+
+<ul>
+ <h4>Filter By Price Range</h4>
+<RadioBox prices={prices} handleFilters={filters => handleFilters(filters,'prices')}/>
+
+</ul>
+ 
     </div>
     
     

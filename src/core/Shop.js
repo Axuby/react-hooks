@@ -1,7 +1,7 @@
 import React,{ useEffect ,useState} from "react";
 import {Card} from "../core/Card"
 import Layout from "./Layout";
-import {getCategories} from "./apiCore"
+import {getCategories,getFilteredProducts} from "./apiCore"
 import Checkbox from "./Checkbox";
 import {Prices} from "../core/FixedPrices";
 import RadioBox from "../core/RadioBox"
@@ -19,6 +19,9 @@ const Shop = () =>{
 const [Categories, setCategories] = useState([])
 const [Error, setError] = useState(false)
 
+const [Limit, setLimit] = useState(6)// 6 products per request 
+const [Skip, setSkip] = useState(0);
+const [FilteredResults, setFilteredResults] = useState(0)
 
 const init = ()=>{
     getCategories().then(data =>{
@@ -33,7 +36,8 @@ const init = ()=>{
 }
 
 useEffect(() => {
-init()
+init();
+loadFilteredResults(skip,limit,newFilters.filters)
 }, [])
 
 const handleFilters = (filters,filterBy) =>{
@@ -50,6 +54,7 @@ newFilters.filters[filterBy] = priceValue;
 
 } 
 
+loadFilteredResults(MyFilters.filters);
 
 setMyFilters(newFilters);
 
@@ -70,7 +75,15 @@ for(let key in data ){
  }
 
 const  loadFilteredResults = (newFilters) =>{
-console.log(newFilters)
+//console.log(newFilters)
+
+getFilteredProducts(Skip,Limit,newFilters).then(data => {
+    if (data.error) {
+        setError(data.error )
+    } else {
+       setFilteredResults(data)
+     }}
+)
 }
  
 return (
@@ -87,7 +100,7 @@ return (
     handleFilters={filters => handleFilters(filters,'categories')}/>
     </ul>
 
-  */}
+  
 
 <ul>
  <h4>Filter By Price Range</h4>
@@ -100,7 +113,8 @@ return (
     
     </div>
 </div>
+
 )
-}
+
 
 export default Shop;

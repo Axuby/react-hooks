@@ -1,5 +1,5 @@
 import React,{ useEffect ,useState} from "react";
-import {Card} from "../core/Card"
+import Card from "../core/Card"
 import Layout from "./Layout";
 import {getCategories,getFilteredProducts} from "./apiCore"
 import Checkbox from "./Checkbox";
@@ -21,6 +21,7 @@ const [Error, setError] = useState(false)
 
 const [Limit, setLimit] = useState(6)// 6 products per request 
 const [Skip, setSkip] = useState(0);
+const [Size, setSize] = useState(0)
 const [FilteredResults, setFilteredResults] = useState(0)
 
 const init = ()=>{
@@ -35,21 +36,66 @@ const init = ()=>{
     }).catch(err => console.log(err))
 }
 
+
+const  loadFilteredResults = (newFilters) =>{
+    console.log(newFilters)
+    
+    getFilteredProducts(Skip,Limit,newFilters).then(data => {
+        if (data.error) {
+            setError(data.error )
+        } else {
+           setFilteredResults(data.data)
+           setSize(data.Size)
+           setSkip(0)
+         }}
+    )
+    }
+
+
+const  loadMore = () =>{
+    console.log(newFilters)
+
+    const toSkip = Skip + Limit;
+    
+    getFilteredProducts(toSkip,Limit,newFilters).then(data => {
+        if (data.error) {
+            setError(data.error )
+        } else {
+           setFilteredResults([...FilteredResults],[...data.data])
+           setSize(data.Size)
+           setSkip(toSkip)
+         }}
+    )
+    }
+
+
 useEffect(() => {
 init();
-loadFilteredResults(skip,limit,newFilters.filters)
+loadFilteredResults(skip,limit,MyFilters.filters)
 }, [])
+
+const handlePrice = (value) =>{
+    const data = Prices;
+    let array = []
+    
+    for(let key in data ){
+        if (data[key]._id === parseInt(value))  {
+            array = data[key].array
+        } 
+    
+        return array;
+     }
 
 const handleFilters = (filters,filterBy) =>{
 console.log('SHSOP',filters,filterBy)
 
 const newFilters = {...MyFilters}
+
 newFilters.filters[filterBy] = filters;
-
-
 if (filterBy === 'price') {
     
-let priceValue = handlePrice(filters)
+let priceValue = handlePrice(filters);
+
 newFilters.filters[filterBy] = priceValue;
 
 } 
@@ -60,39 +106,25 @@ setMyFilters(newFilters);
 
 }
 
-
-
-const handlePrice = (value) =>{
-const data = Prices;
-let array = []
-
-for(let key in data ){
-    if (data[key]._id === parseInt(value))  {
-        array = data[key].array
-    } 
-
-    return array;
- }
-
-const  loadFilteredResults = (newFilters) =>{
-//console.log(newFilters)
-
-getFilteredProducts(Skip,Limit,newFilters).then(data => {
-    if (data.error) {
-        setError(data.error )
-    } else {
-       setFilteredResults(data)
-     }}
-)
+const loadMoreButton = () => {
+    return (
+        Size > 0 && Size >= Limit && (
+            <div>
+                <button classname='btn btn-warning mb-5' onClick={loadMore}> Load More</button>
+            </div>
+        )
+    )
 }
+
+
+
  
 return (
     
     <div>
-    <Layout title="Home Page" description="Search and Find Products of your Choice" className=" container-fluid"> ....</Layout>
+    <Layout title="Home Page" description="Search and Find Products of your Choice" className=" container-fluid"> 
 <div className="row">
     <div className="col-4">Left Side bar
-    </div>
     <div className="col-8">Right
     <h4>Filter By Categories</h4>
     <ul>
@@ -101,19 +133,25 @@ return (
     </ul>
 
   
-
-<ul>
- <h4>Filter By Price Range</h4>
-<RadioBox prices={Prices} handleFilters={filters => handleFilters(filters,'price')}/>
-
-</ul>
- 
     </div>
     
-    
+    <h4>Filter By Price Range</h4>
+<RadioBox prices={Prices} handleFilters={filters => handleFilters(filters,'price')}/>
+
     </div>
 </div>
 
+
+
+<div className="col-8">
+     <h2 className="mb-4">
+    <div className="row">
+        {FilteredResults.map((product,i) => (
+             <Card key={i} product={product}/>
+        )) }
+        </div></h2></div>
+</Layout>
+</div>
 )
 
 

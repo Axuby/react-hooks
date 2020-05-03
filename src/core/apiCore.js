@@ -1,4 +1,5 @@
 import {API} from "../config";
+import queryString from "query-stri ng"
 
 
 export const getProduct = (sortBy) =>{
@@ -42,3 +43,17 @@ export const  getFilteredProducts  =(skip,limit,filter = {}) =>{
     .then(res => res.JSON( ))
     .catch(error => console.log(error))
 }
+
+export const list = (params) =>{
+    const query = queryString.stringify(params)
+    console.log(query)
+
+
+    return fetch(`${API}/products${query} ` ,{
+        method:"GET"
+
+    }).then(response => response.json())
+    .catch(err => console.log(err))
+}
+
+

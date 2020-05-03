@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { getCategories,list } from './apiCore';
+import Card from './Card';
 
 
 const Search = () => { 
@@ -19,7 +20,7 @@ const Search = () => {
           if (data.error) {
             console.log(data) 
           } else {
-              setData({...Data,categories:data})
+              setData({...Data,categories:data,searched:true})
           }
         }) 
     }
@@ -51,6 +52,27 @@ const handleChange =(name) => (event) =>{
      
 }
    
+const searchMessage = (searched,results) =>{
+if(searched && results.length > 0){
+    return `Found ${results.length} products `
+}
+
+if(searched && results.length < 1){
+    return `No products `
+}
+}
+
+const searchProduct = (results = []) => {    
+    return (
+   <div>
+<h2 className="mt-4 mb-4">{searchMessage(searched,results)}</h2>
+
+        <div className="row">{results.map((product,i) => (
+<Card key={i} product={product}/>
+    ))}</div>
+   </div>
+    )
+}
 const searchForm = () =>
          (
                <form action="" onSubmit={searchSubmit} className="mb2 mt2">

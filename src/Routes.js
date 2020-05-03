@@ -11,6 +11,7 @@ import AdminRoute from './auth/adminRoute';
  import AddCategory from "../src/admin/AddCategory";
  import AddProduct from "../src/admin/AddProduct";
  import Shop from './core/Shop'
+ import Product from '../src/core/Product'
   
 const Routes = () => {
         return (

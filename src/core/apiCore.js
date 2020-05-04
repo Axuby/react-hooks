@@ -1,5 +1,5 @@
 import {API} from "../config";
-import queryString from "query-stri ng"
+import queryString from "query-string"
 
 
 export const getProduct = (sortBy) =>{
@@ -56,7 +56,7 @@ export const list = (params) =>{
     const query = queryString.stringify(params)
     console.log(query)
 
-
+ 
     return fetch(`${API}/products${query} ` ,{
         method:"GET"
 
@@ -64,4 +64,10 @@ export const list = (params) =>{
     .catch(err => console.log(err))
 }
 
+export const listRelated = (productId) =>{
+    return fetch(`${API}/product/related/${productId} ` ,{
+        method:"GET"
 
+    }).then(response => response.json())
+    .catch(err => console.log(err))
+}

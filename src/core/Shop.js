@@ -1,13 +1,14 @@
 import React,{ useEffect ,useState} from "react";
-import Card from "../core/Card"
+import Card from "../core/Card";
 import Layout from "./Layout";
 import {getCategories,getFilteredProducts} from "./apiCore"
 import Checkbox from "./Checkbox";
 import {Prices} from "../core/FixedPrices";
 import RadioBox from "../core/RadioBox"
+//import Search from './Search'
 
 
-const Shop = () =>{
+const Shop = () => {
 
 
     const [MyFilters, setMyFilters] = useState({
@@ -61,7 +62,7 @@ const  loadMore = () =>{
         if (data.error) {
             setError(data.error )
         } else {
-           setFilteredResults([...FilteredResults],[...data.data])
+           setFilteredResults([...FilteredResults,...data.data])
            setSize(data.Size)
            setSkip(toSkip)
          }}
@@ -122,35 +123,37 @@ const loadMoreButton = () => {
 return (
     
     <div>
-    <Layout title="Home Page" description="Search and Find Products of your Choice" className=" container-fluid"> 
-<div className="row">
-    <div className="col-4">Left Side bar
-    <div className="col-8">Right
-    <h4>Filter By Categories</h4>
-    <ul>
-    <Checkbox Categories={Categories} 
-    handleFilters={filters => handleFilters(filters,'categories')}/>
-    </ul>
 
-  
-    </div>
+    <Layout title="Home Page" 
+    description="Search and Find Products of your Choice"
+     className=" container-fluid"> </Layout>
+    <div className="row">
+            <div className="col-4">Left Side bar
+                 <div className="col-8">Right
+            <h4>Filter By Categories</h4>
+            <ul>
+            <Checkbox Categories={Categories} 
+            handleFilters={filters => handleFilters(filters,'categories')}/>
+            </ul>
+        </div>
     
     <h4>Filter By Price Range</h4>
-<RadioBox prices={Prices} handleFilters={filters => handleFilters(filters,'price')}/>
+    <RadioBox prices={Prices} handleFilters={filters => handleFilters(filters,'price')}/>
 
     </div>
 </div>
 
 
-
 <div className="col-8">
-     <h2 className="mb-4">
+     <h2 className="mb-4">Products </h2>
     <div className="row">
         {FilteredResults.map((product,i) => (
              <Card key={i} product={product}/>
         )) }
-        </div></h2></div>
-</Layout>
+        </div>
+       {loadMoreButton()}
+    </div>
+
 </div>
 )
 

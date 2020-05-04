@@ -40,29 +40,34 @@ useEffect(() => {
 
         return (
             <div>
-                <Layout title="Home Page" description="Node E-commerce App" className=" container-fluid"> ....</Layout>
+                <Layout title="Home Page" 
+                description="Node E-commerce App" 
+                className=" container-fluid"> ....</Layout>
                 <h2>Home</h2>
                 <h2 className="mb-4"> New Arrivals</h2>
                 <div className="row">
                 {ProductByArrival.map((product,i) => (
    // <Card key={i} product={product}/>
- < div className='col-4 '></ div>    
+ < div key={i} className='col-4 mb-3'>
+     <Card product={product}/>
+     </ div>    
 ))}
-                </div>
+        </div>
 
 
 <h2 className="mb-4"> Best Sellers</h2>
 <div className="row">
 {ProductBySell.map((product,i) => (
-    <Card key={i} product={product}/>
-))}
-</div>
+    < div key={i} className='col-4 mb-3'>
+    <Card product={product}/></ div>
+                    ))}
 
+            </div>
 
                 {/* {JSON.stringify(ProductByArrival)}
                 <hr/>
                 {JSON.stringify(ProductBySell)} */}
-            </div>
+            
         )
     
 }

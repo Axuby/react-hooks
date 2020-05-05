@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from "react";
 
 const App = () => {
-  const [count, setcount] = useState(0);
-  useEffect(() =>{
-    document.title = `clicked ${count} title`
-  })
-    const increment = () =>{
-    setcount(count +1);
-  };
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h2>Counter App</h2>
-    <button onClick={increment}> Clicked {count} times</button>
-        </header>
-      </div>
-    );
-  }
+  // const [count, setcount] = useState(0);
+  // useEffect(() =>{
+  //   document.title = `clicked ${count} title`
+  // })
+  //   const increment = () =>{
+  //   setcount(count +1);
+  // };
+    // return (
+    //   <div className="App">
+    //     <header className="App-header">
+    //       <h2>Counter App</h2>
+    // <button onClick={increment}> Clicked {count} times</button>
+    //     </header>
+    //   </div>
+    // );
+  
+
+
+
+
   const [news, setNews] = useState([]);;
   const [searchQuery, setsearchQuery] = useState('react');
   const [url, seturl] = useState('http://hn.algolia.com/api/v1/search?query=react')
   const [loading, setloading] = useState(false)
+
+
+
   useEffect(() => { const fetchNews = () =>{
     setloading(true)
     fetch(url)
@@ -30,6 +37,8 @@ const App = () => {
     };
   fetchNews();
   },[url]);
+
+
    const handleChange = (e) =>{
   setsearchQuery(e.target.value)
    }
@@ -38,10 +47,13 @@ const App = () => {
      seturl(`http://hn.algolia.com/api/v1/search?query=react${searchQuery}`);
    }
    const showLoading = () => (loading ? <h2> Loading...</h2> :"");
-   const searchForm = () => (<form onSubmit={handleSubmit}>
+
+   const searchForm = () => (
+   <form onSubmit={handleSubmit}>
     <input type="text" value={searchQuery} onChange={handleChange} />
     <button>Search</button>
   </form>)
+
   const showNews = () => (
      news.map((n,i) =>(
       <p keys={i} >{n.title}</p>
@@ -56,5 +68,5 @@ const App = () => {
    {showNews()}
     </div>
   )
-};
+   }
 export default App;

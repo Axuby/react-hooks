@@ -52,23 +52,22 @@ useEffect(() => {
      <Card product={product}/>
      </ div>    
 ))}
-        </div>
+      </div>
 
 
 <h2 className="mb-4"> Best Sellers</h2>
 <div className="row">
 {ProductBySell.map((product,i) => (
     < div key={i} className='col-4 mb-3'>
-    <Card product={product}/></ div>
+    <Card product={product}/>
+    </ div>
                     ))}
 
             </div>
 
-                {/* {JSON.stringify(ProductByArrival)}
-                <hr/>
-                {JSON.stringify(ProductBySell)} */}
+        
             
-        )
+       </div> )
     
 }
 

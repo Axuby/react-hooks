@@ -4,7 +4,7 @@ import ShowImage from "./ShowImage"
 import moment from 'moment';
 import {addItem} from './CartHelpers'
 
-const Card = ({product,showViewProductButton = true}) =>{
+const Card = ({product,showViewProductButton = true,showAddToCartButton= true}) =>{
 
 const [cartRedirect, setcartRedirect] = useState(false)
 

@@ -95,3 +95,13 @@ return(
 
 }
 export default Signup;
+
+
+
+
+
+//name.has()
+
+
+
+

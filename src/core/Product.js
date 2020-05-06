@@ -42,6 +42,8 @@ loadSingleProduct(productId)
 }, [props])
 
 
+
+
         return (
             <div>
                   <Layout title={product && product.name}

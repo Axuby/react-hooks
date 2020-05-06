@@ -62,8 +62,9 @@ if(searched && results.length < 1){
 }
 }
 
+
 const searchProduct = (results = []) => {    
-    return (
+    return ( 
    <div>
 <h2 className="mt-4 mb-4">{searchMessage(searched,results)}</h2>
 

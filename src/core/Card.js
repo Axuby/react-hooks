@@ -2,11 +2,16 @@ import React,{useState,useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom';
 import ShowImage from "./ShowImage"
 import moment from 'moment';
-import {addItem} from './CartHelpers'
+import {addItem,updateItem,removeItem } from './CartHelpers'
 
-const Card = ({product,showViewProductButton = true,showAddToCartButton= true}) =>{
+const Card = ({product,
+    showAddToCartButton = true,
+    showViewProductButton = true,
+    showRemoveProductButton = false,
+    cartUpdate = false}) =>{
 
 const [cartRedirect, setcartRedirect] = useState(false)
+const [count, setCount] = useState(product.count)
 
 
 const showViewButton = (showViewProductButton) => {
@@ -18,6 +23,10 @@ const showViewButton = (showViewProductButton) => {
 </button></Link>)
 )}
 
+
+useEffect(() => {
+setCount()
+}, [])
 
 
 const showStock = (quantity) =>{
@@ -37,10 +46,50 @@ const addToCart = (cartRedirect) =>{
     })
 }
 
-const showAddToCartButton= (showViewAddToCartButton) => {
+
+const handleChange = productId => event => {
+    setCount(event.target.value < 1 ? 1 : event.target.value)
+    if (event.target.value >= 1) {
+        updateItem(productId,event.target.value);
+    }
+}
+
+
+const showCartUpdate = (cartUpdate) => {
+
+    return(
+        cartUpdate && <div>
+   <div className="input-group mb-3">
+       <div className="input-group-prepend">
+           <span className="input-group-text">
+               Adjust Quantity
+           </span>
+       </div>
+
+       <input type="number" className="form-control"/>
+   </div>
+        </div>
+    )
+}
+
+
+
+
+
+const showRemoveCartButton = (showRemoveProductButton) => {
     
     return (
-   showViewAddToCartButton &&  (<Link to={`/product/${product._id}`} >
+   showRemoveProductButton &&  (<Link to={`/product/${product._id}`} >
+       <button onClick={()=> removeItem(product._id)} className='btn btn-outline-primary mt-2 mb-2'>
+   Remove from Cart
+</button>
+</Link>)
+)}
+
+const showAddCartButton = (showAddToCartButton) => {
+    
+    return (
+   showAddToCartButton &&  (<Link to={`/product/${product._id}`} >
        <button onClick={addToCart} className='btn btn-outline-primary mt-2 mb-2'>
    ADD TO CART
 </button>
@@ -63,7 +112,7 @@ const showAddToCartButton= (showViewAddToCartButton) => {
 {showStock(product.quantity)}
 <br/>
      {showViewButton(showViewProductButton)}
-     {showAddToCartButton()}
+     {showAddCartButton(showAddToCartButton)}
     </div>
     </div>
            // </div>
